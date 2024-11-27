@@ -10,7 +10,7 @@ public class Bombs {
     private String yCord;
     private int xCord;
 
-    public Bombs(Board allCord, Boardbom alphabet, String firstChosenCord) {
+    public Bombs(Board allCord, Board alphabet, String firstChosenCord) {
         allCordList = allCord;
         usedAlphabetList = alphabet;
         firstCord = firstChosenCord;
