@@ -6,7 +6,12 @@ public class MinesweeperRunner {
 
         MainMenu obj = new MainMenu();
 
-        obj.Menu();
+        while (obj.q()) {
+            obj.Menu();
+
+        }
+
+        System.out.println("\n" + "Thanks for playing mindsweeper, its a great game i know ");
 
 
     }

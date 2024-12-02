@@ -6,7 +6,7 @@ public class MainMenu {
     public boolean medium = false;
     public boolean hard = false;
     public boolean winCon = false;
-    public boolean queue = false;
+    public boolean queue = true;
 
     public void Menu() {
         easy = false;
@@ -62,5 +62,9 @@ public class MainMenu {
         if (str.equals("y")) {
             queue = true;
         }
+    }
+
+    public boolean q() {
+        return queue;
     }
 }

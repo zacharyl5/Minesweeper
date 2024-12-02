@@ -6,6 +6,7 @@ public class Board {
     private String gamemode;
     private List<String> alphabet = new ArrayList<String>();
     private List <String> cords = new ArrayList<String>();
+    private List <String> notAllowBombs = new ArrayList<String>();
 
 
     public Board(String gamemode) {
@@ -17,6 +18,48 @@ public class Board {
         }
         if (gamemode.equalsIgnoreCase(("hard"))) {
             grid = 16;
+        }
+    }
+
+    public void setNotAllowBombs(String userInput) {
+        String firstChar = userInput.substring(0, 1);
+        int secondChar = Integer.parseInt(userInput.substring(1));
+        if (firstChar.equals(alphabet.getFirst())) {
+            if (secondChar == 1) {
+                for (int i = 1;i < 5; i++) {
+                    String add = "";
+                    if (i < 3) {
+                        add +=  alphabet.getFirst() + i;
+                    } else {
+                        add += alphabet.get(1) + (i - 2);
+                    }
+                    notAllowBombs.add(add);
+                }
+            } else if (secondChar == grid) {
+                for (int i = grid; i > grid - 4; i--) {
+                    String add = "";
+                    if (i < 3) {
+                        add +=  alphabet.getFirst() + i;
+                    } else {
+                        add += alphabet.get(1) + (i + 2);
+                    }
+                    notAllowBombs.add(add);
+                }
+            } else {
+                int num = secondChar - 1;
+                for (int i = 0; i < 6; i++) {
+                    String add = "";
+                    if (i < 3) {
+                        add = alphabet.getFirst() + (num + i);
+                    } else {
+                        add = alphabet.get(1) + (num + i - 3);
+                    }
+                    notAllowBombs.add(add);
+                }
+            }
+        }
+        else if (firstChar.equals(alphabet.getLast())) {
+            
         }
     }
 
@@ -71,7 +114,6 @@ public class Board {
             }
         }
     }
-
 }
 
 
