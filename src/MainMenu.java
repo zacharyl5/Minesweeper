@@ -7,6 +7,7 @@ public class MainMenu {
 
     public MainMenu() {}
 
+
     public String menu() {
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════╗\n" +

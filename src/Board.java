@@ -9,16 +9,20 @@ public class Board {
     private List <String> cordsBomb = new ArrayList<String>();
     private List <String> userCords = new ArrayList<String>();
     private List <String> notAllowBombs = new ArrayList<String>();
+    private int numBombs;
 
     public Board(String gamemode) {
         if (gamemode.equalsIgnoreCase(("easy"))) {
             grid = 8;
+            numBombs = 15;
         }
         if (gamemode.equalsIgnoreCase(("medium"))) {
             grid = 12;
+            numBombs = 30;
         }
         if (gamemode.equalsIgnoreCase(("hard"))) {
             grid = 16;
+            numBombs = 50;
         }
     }
 
@@ -88,6 +92,10 @@ public class Board {
         }
     }
 
+//    private void revealBoard() {
+//        for ()
+//    }
+
     private void createAlphabet() {
         for (char i = 65 - 1; i <= 65 + grid - 1; i++) {
             String letter = i + "";
@@ -95,6 +103,7 @@ public class Board {
         }
     }
 
+    // Create the coordinate for each square
     private void createCord() {
         for (int i = 0; i < alphabet.size(); i++) {
             for (int j = 1; j <= grid; j++) {
@@ -103,9 +112,10 @@ public class Board {
         }
     }
 
+    // Create the location of every bomb
     public void createBomb() {
-        int bombsAdded = 0;
-        while (bombsAdded < 100) {
+        int bombsAdded = 1;
+        while (bombsAdded <= numBombs) {
             int firstIdxChar = (int) (Math.random() * (grid + 1));
             int secondChar = (int) (Math.random() * (grid + 1));
             String add = alphabet.get(firstIdxChar) + secondChar;
