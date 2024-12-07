@@ -2,16 +2,13 @@ import java.util.Scanner;
 
 public class MainMenu {
     Scanner Scan = new Scanner(System.in);
-    public boolean easy = false;
-    public boolean medium = false;
-    public boolean hard = false;
-    public boolean winCon = false;
-    public boolean queue = false;
+    private boolean winCon = false;
+    private boolean queue = true;
 
-    public void Menu() {
-        easy = false;
-        medium = false;
-        hard = false;
+    public MainMenu() {}
+
+
+    public String menu() {
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════╗\n" +
                 "███╗░░░███╗██╗███╗░░██╗███████╗░██████╗░██╗░░░░░░░██╗███████╗███████╗██████╗░███████╗██████╗░\n" +
@@ -24,13 +21,16 @@ public class MainMenu {
         System.out.println("\n" + "Select your difficulty below: easy, medium, hard (write exact) ");
         String str = Scan.nextLine();
         if (str.equals("easy")) {
-            easy = true;
+            return "easy";
         } else if (str.equals("medium")) {
-            medium = true;
-        } else hard = true;
+            return "medium";
+        } else {
+            return "hard";
+        }
     }
 
     public void loseMenu() {
+        queue = false;
         System.out.println(
                 "╔════════════════════════════════════════════════════════════════════╗\n" +
                 "██╗░░░██╗░█████╗░██╗░░░██╗░░░░░░░░██╗░░░░░░█████╗░░██████╗████████╗██╗\n" +
@@ -48,6 +48,7 @@ public class MainMenu {
     }
 
     public void winMenu() {
+        queue = false;
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════╗\n" +
                 "██╗░░░██╗░█████╗░██╗░░░██╗░░░░░░░░░██╗░░░░░░░██╗░█████╗░███╗░░██╗██╗\n" +
@@ -62,5 +63,9 @@ public class MainMenu {
         if (str.equals("y")) {
             queue = true;
         }
+    }
+
+    public boolean getQ() {
+        return queue;
     }
 }
