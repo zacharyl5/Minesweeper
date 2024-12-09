@@ -2,8 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Board {
-    private int grid;
+public class BoardLogic {
     // Y axis
     private List<String> alphabet = new ArrayList<>();
     // All the possible cords for the grid
@@ -20,16 +19,16 @@ public class Board {
     private final List <Integer> numBombSurrounding2 = new ArrayList<>();
     // reveal status of each cords
     private List <Boolean> revealStatus = new ArrayList<>();
-
+    // all surrounding 0
     private List<String> surroundingOf0 = new ArrayList<String>();
 
-
+    private int grid;
     private int numBombs;
 
-    public Board(String gamemode) {
+    public BoardLogic(String gamemode) {
         if (gamemode.equalsIgnoreCase(("easy"))) {
             grid = 8;
-            numBombs = 15;
+            numBombs = 10;
         }
         if (gamemode.equalsIgnoreCase(("medium"))) {
             grid = 12;
@@ -41,6 +40,10 @@ public class Board {
         }
     }
 
+    public BoardLogic() {
+        grid = 10;
+        numBombs = 15;
+    }
     // initiate starting grid
     public void createBoard() {
         createAlphabet();
@@ -65,6 +68,7 @@ public class Board {
     public void addUserCords(String input) {
         userCords.add(input);
     }
+
 
     // Starting hidden board
     public void printStartingBoard() {
@@ -100,7 +104,7 @@ public class Board {
     }
 
     // Used for printing the board with the revealed spaces
-    public void editedBoard() {
+    public void printBoard() {
         int iteration = 0;
 
         for (int i = 0; i < grid + 1; i++) {
@@ -110,15 +114,20 @@ public class Board {
                     System.out.print("-");
                 }
                 System.out.print("\n" + alphabet.get(i) + " " + "|");
-
                 for (int x = 0; x < grid; x++) {
-                    String character = "███";
-                    if (numBombSurrounding.get(iteration) == -1) {
-                        character = " B ";
+                    String character;
+                    if (revealStatus.get(iteration)) {
+                        if (numBombSurrounding.get(iteration) == -1) {
+                            character = " B ";
+                        } else if (numBombSurrounding.get(iteration) == -2) {
+                            character = " F ";
+                        } else {
+                            character = " " + numBombSurrounding.get(iteration) + " ";
+                        }
                     } else {
-                        character = " " + numBombSurrounding.get(iteration) + " ";
+                        character = "███";
                     }
-                    System.out.print("" + character + "|");
+                    System.out.print(character + "|");
                     iteration++;
                 }
                 System.out.println();
@@ -211,7 +220,7 @@ public class Board {
         }
     }
 
-    public void StartingSpaceFor0(String cord) {
+    public void CheckFor0(String cord) {
         int firstIdx = alphabet.indexOf(cord.substring(0, 1)) - 1;
         int secondChar = Integer.parseInt(cord.substring(1)) - 1;
         for (int j = 0; j < 9; j++) {
@@ -249,15 +258,17 @@ public class Board {
         }
     }
 
-    public void StartingSpaceFor0() {
+    public void CheckFor0() {
         for (String cords : surroundingOf0) {
             int firstIdx = alphabet.indexOf(cords.substring(0, 1)) - 1;
             int secondChar = Integer.parseInt(cords.substring(1)) - 1;
             for (int i = 0; i < 9; i++) {
                 String add = getAdd(firstIdx, secondChar, i);
-                int idxAdd = revealStatus.indexOf(add);
-                if (!revealStatus.get(idxAdd)) {
-                    revealStatus.set(idxAdd, true);
+                if (!add.isEmpty()) {
+                    int idxAdd = this.cords.indexOf(add);
+                    if (!revealStatus.get(idxAdd)) {
+                        revealStatus.set(idxAdd, true);
+                    }
                 }
             }
         }
@@ -280,9 +291,58 @@ public class Board {
     public void removeFlag(String cord) {
         int flagIdx = cords.indexOf(cord);
         int num = numBombSurrounding2.get(flagIdx);
+        revealStatus.set(flagIdx, false);
+        userCords.remove(cord);
+        System.out.println(revealStatus);
         numBombSurrounding.set(flagIdx, num);
     }
 
+
+    public boolean checkCord(String cord) {
+        if (cordsBomb.contains(cord)) {
+            return true;
+        }
+        return false;
+    }
+
+    public int checkCordVal(String cord) {
+        int idx = cords.indexOf(cord);
+        return numBombSurrounding2.get(idx);
+    }
+
+    public boolean checkRevealStatus(String cord) {
+        int idx = cords.indexOf(cord);
+        return revealStatus.get(idx);
+    }
+
+    public boolean checkWin() {
+        int count = 0;
+        for (boolean status : revealStatus) {
+            if (status) {
+                count++;
+            }
+        }
+        return count == (int) Math.pow(grid, 2);
+    }
+
+    public boolean checkIfFlag(String cord) {
+        int idx = cords.indexOf(cord);
+        if (numBombSurrounding.get(idx) == -2) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean acceptableCord(String cord) {
+        return cords.contains(cord);
+    }
+
+    public void setAllRevealTrue() {
+        numBombSurrounding = numBombSurrounding2;
+        for (int i = 0; i < revealStatus.size(); i++) {
+            revealStatus.set(i, true);
+        }
+    }
 
     private String getAdd(int firstIdx, int secondChar, int j) {
         String add = "";

@@ -1,12 +1,11 @@
 import java.util.Scanner;
 
 public class MainMenu {
-    Scanner Scan = new Scanner(System.in);
-    private boolean winCon = false;
-    private boolean queue = true;
+    private final Scanner scan;
 
-    public MainMenu() {}
-
+    public MainMenu(Scanner scan) {
+        this.scan = scan;
+    }
 
     public String menu() {
         System.out.println(
@@ -19,18 +18,18 @@ public class MainMenu {
                 "╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚══════╝╚═════╝░░░░╚═╝░░░╚═╝░░╚══════╝╚══════╝╚═╝░░░░░╚══════╝╚═╝░░╚═╝\n" +
                 "╚═══════════════════════════════════════════════════════════════════════════════════════════╝");
         System.out.println("\n" + "Select your difficulty below: easy, medium, hard (write exact) ");
-        String str = Scan.nextLine();
-        if (str.equals("easy")) {
-            return "easy";
-        } else if (str.equals("medium")) {
-            return "medium";
-        } else {
+        String str = scan.nextLine();
+        if (str.equalsIgnoreCase("hard")) {
             return "hard";
-        }
+        } else if (str.equalsIgnoreCase("medium")) {
+            return "medium";
+        } else if (str.equalsIgnoreCase("easy")) {
+            return "easy";
+        } else return "default";
     }
 
     public void loseMenu() {
-        queue = false;
+        System.out.println();
         System.out.println(
                 "╔════════════════════════════════════════════════════════════════════╗\n" +
                 "██╗░░░██╗░█████╗░██╗░░░██╗░░░░░░░░██╗░░░░░░█████╗░░██████╗████████╗██╗\n" +
@@ -40,15 +39,10 @@ public class MainMenu {
                 "░░░██║░░░╚█████╔╝╚██████╔╝░░░░░░░░███████╗╚█████╔╝██████╔╝░░░██║░░░██╗\n" +
                 "░░░╚═╝░░░░╚════╝░░╚═════╝░░░░░░░░░╚══════╝░╚════╝░╚═════╝░░░░╚═╝░░░╚═╝\n" +
                 "╚════════════════════════════════════════════════════════════════════╝");
-        System.out.println("\n" + "Do you want to play again? y/n");
-        String str = Scan.nextLine();
-        if (str.equals("y")) {
-            queue = true;
-        }
     }
 
     public void winMenu() {
-        queue = false;
+        System.out.println();
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════╗\n" +
                 "██╗░░░██╗░█████╗░██╗░░░██╗░░░░░░░░░██╗░░░░░░░██╗░█████╗░███╗░░██╗██╗\n" +
@@ -58,14 +52,5 @@ public class MainMenu {
                 "░░░██║░░░╚█████╔╝╚██████╔╝░░░░░░░░░░╚██╔╝░╚██╔╝░╚█████╔╝██║░╚███║██╗\n" +
                 "░░░╚═╝░░░░╚════╝░░╚═════╝░░░░░░░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚══╝╚═╝\n" +
                 "╚═══════════════════════════════════════════════════════════════════╝");
-        System.out.println("\n" + "Do you want to play again? y/n");
-        String str = Scan.nextLine();
-        if (str.equals("y")) {
-            queue = true;
-        }
-    }
-
-    public boolean getQ() {
-        return queue;
     }
 }
