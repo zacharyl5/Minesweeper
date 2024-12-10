@@ -117,10 +117,12 @@ public class BoardLogic {
                 for (int x = 0; x < grid; x++) {
                     String character;
                     if (revealStatus.get(iteration)) {
-                        if (numBombSurrounding.get(iteration) == -1) {
-                            character = " B ";
+                        if (numBombSurrounding.get(iteration) == 0) {
+                            character = "   ";
+                        } else if (numBombSurrounding.get(iteration) == -1) {
+                            character = "\uD83D\uDCA3 ";
                         } else if (numBombSurrounding.get(iteration) == -2) {
-                            character = " F ";
+                            character = "\uD83D\uDEA9 ";
                         } else {
                             character = " " + numBombSurrounding.get(iteration) + " ";
                         }
@@ -293,7 +295,6 @@ public class BoardLogic {
         int num = numBombSurrounding2.get(flagIdx);
         revealStatus.set(flagIdx, false);
         userCords.remove(cord);
-        System.out.println(revealStatus);
         numBombSurrounding.set(flagIdx, num);
     }
 
