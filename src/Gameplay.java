@@ -40,6 +40,8 @@ public class Gameplay {
             System.out.println("Try Again: ");
             cord = scan.nextLine();
         }
+
+        // Initiate the board
         board.addUserCords(cord);
         board.setNotAllowBombs(cord);
         board.createBomb();
@@ -54,6 +56,7 @@ public class Gameplay {
             System.out.println("Would you like to flag or select a space (select (s) or flag (f) or remove flag (r)): ");
             String flagOrSelect = scan.nextLine();
 
+            // If statement for selecting a cord
             if (flagOrSelect.equalsIgnoreCase("s") || flagOrSelect.equalsIgnoreCase("select")) {
                 System.out.println("Enter a coordinate to reveal (ex: E5) or exit: ");
                 cord = scan.nextLine().toUpperCase();
@@ -67,6 +70,7 @@ public class Gameplay {
                         }
                     }
 
+                    // Lose if condition
                     if (!cord.equalsIgnoreCase("exit")) {
                         board.addUserCords(cord);
                         if (board.checkCord(cord)) {
@@ -74,6 +78,7 @@ public class Gameplay {
                         }
                     }
                 }
+            // If statement for selecting to make a flag at a certain cord
             } else if (flagOrSelect.equalsIgnoreCase("f") || flagOrSelect.equalsIgnoreCase("flag")) {
                 System.out.println("Enter a coordinate you want to flag (ex: E5) or exit: ");
                 cord = scan.nextLine().toUpperCase();
@@ -87,12 +92,12 @@ public class Gameplay {
                         }
                     }
 
-
                     if (!cord.equalsIgnoreCase("exit")) {
                         board.addUserCords(cord);
                         board.setFlag(cord);
                     }
                 }
+            // If statement for selecting to remove a flag
             } else if (flagOrSelect.equalsIgnoreCase("r") || flagOrSelect.equalsIgnoreCase("replace flag")) {
                 System.out.println("Enter a coordinate you want to remove a flag (ex: E5) or exit: ");
                 cord = scan.nextLine().toUpperCase();
@@ -112,14 +117,17 @@ public class Gameplay {
                 }
             }
 
+            // Checks if the cord surround bomb is equal to 0
             if (!cord.equalsIgnoreCase("exit") && board.checkCordVal(cord) == 0 && !flagOrSelect.equalsIgnoreCase("remove flag")) {
                 board.CheckFor0(cord);
                 board.CheckFor0();
             }
 
+            // Reveal the board
             board.setRevealStatus();
             board.printBoard();
 
+            // Checks for win
             if (board.checkWin()) {
                 queue = false;
                 winStatus = true;

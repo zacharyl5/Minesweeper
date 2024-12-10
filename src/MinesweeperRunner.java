@@ -13,7 +13,9 @@ public class MinesweeperRunner {
             if (response.equalsIgnoreCase("n") || response.equalsIgnoreCase("no")) {
                 queue = false;
                 System.out.println("Thanks for playing minesweeper");
+                continue;
             }
+            game = new Gameplay(scan);
         }
     }
 }

@@ -3,6 +3,7 @@ import java.util.List;
 
 
 public class BoardLogic {
+    // Reference List
     // Y axis
     private List<String> alphabet = new ArrayList<>();
     // All the possible cords for the grid
@@ -16,15 +17,17 @@ public class BoardLogic {
     // num of bombs surrounding each cords
     private List <Integer> numBombSurrounding = new ArrayList<>();
     // final of numBombSurrounding
-    private final List <Integer> numBombSurrounding2 = new ArrayList<>();
+    private List <Integer> numBombSurrounding2 = new ArrayList<>();
     // reveal status of each cords
     private List <Boolean> revealStatus = new ArrayList<>();
     // all surrounding 0
     private List<String> surroundingOf0 = new ArrayList<String>();
 
+    // Reference Variable
     private int grid;
     private int numBombs;
 
+    // Constructor for the different game mode
     public BoardLogic(String gamemode) {
         if (gamemode.equalsIgnoreCase(("easy"))) {
             grid = 8;
@@ -40,6 +43,7 @@ public class BoardLogic {
         }
     }
 
+    // Constructor for the default board
     public BoardLogic() {
         grid = 10;
         numBombs = 15;
@@ -51,7 +55,7 @@ public class BoardLogic {
         printStartingBoard();
     }
 
-
+    // Set the space where bombs cannot spawn of the first inputted cord
     public void setNotAllowBombs(String userInput) {
         int firstIdx = alphabet.indexOf(userInput.substring(0, 1)) - 1;
         int secondChar = Integer.parseInt(userInput.substring(1)) - 1;
@@ -212,6 +216,7 @@ public class BoardLogic {
         }
     }
 
+    // Creates the reveal status array list for the cords (used only when the game is initiated)
     public void revealBoard() {
         for (String cord : cords) {
             if (userCords.contains(cord)) {
@@ -222,6 +227,7 @@ public class BoardLogic {
         }
     }
 
+    // Checks for numbers that are 0 surrounding the cord that value (numBombSurrounding) should also be zero
     public void CheckFor0(String cord) {
         int firstIdx = alphabet.indexOf(cord.substring(0, 1)) - 1;
         int secondChar = Integer.parseInt(cord.substring(1)) - 1;
@@ -260,6 +266,7 @@ public class BoardLogic {
         }
     }
 
+    // Checks for numbers surrounding the 0
     public void CheckFor0() {
         for (String cords : surroundingOf0) {
             int firstIdx = alphabet.indexOf(cords.substring(0, 1)) - 1;
@@ -276,6 +283,8 @@ public class BoardLogic {
         }
         surroundingOf0 = new ArrayList<>();
     }
+
+    // Sets the reveal stats as true for all cords that the user inputted
     public void setRevealStatus() {
         for (String string : userCords) {
             int stringIdx = cords.indexOf(string);
@@ -285,11 +294,13 @@ public class BoardLogic {
         }
     }
 
+    // Set a cord as a flag
     public void setFlag(String cord) {
         int flagIdx = cords.indexOf(cord);
         numBombSurrounding.set(flagIdx, -2);
     }
 
+    // Removes a flag and reset the numBombSurrounding value of cord back to its original value and set the revealStatus as false
     public void removeFlag(String cord) {
         int flagIdx = cords.indexOf(cord);
         int num = numBombSurrounding2.get(flagIdx);
@@ -298,24 +309,24 @@ public class BoardLogic {
         numBombSurrounding.set(flagIdx, num);
     }
 
-
+    // Checks if the cord the user selected is a bomb or not
     public boolean checkCord(String cord) {
-        if (cordsBomb.contains(cord)) {
-            return true;
-        }
-        return false;
+        return cordsBomb.contains(cord);
     }
 
+    // Checks the Cord num of bombs in its surrounding value
     public int checkCordVal(String cord) {
         int idx = cords.indexOf(cord);
         return numBombSurrounding2.get(idx);
     }
 
+    // Checks the reveal status of a specific cord
     public boolean checkRevealStatus(String cord) {
         int idx = cords.indexOf(cord);
         return revealStatus.get(idx);
     }
 
+    // Checks if the board is fully revealed
     public boolean checkWin() {
         int count = 0;
         for (boolean status : revealStatus) {
@@ -326,6 +337,7 @@ public class BoardLogic {
         return count == (int) Math.pow(grid, 2);
     }
 
+    // Checks if the selected cord is a flag or not
     public boolean checkIfFlag(String cord) {
         int idx = cords.indexOf(cord);
         if (numBombSurrounding.get(idx) == -2) {
@@ -334,10 +346,12 @@ public class BoardLogic {
         return false;
     }
 
+    // Checks if the cord is within the bound
     public boolean acceptableCord(String cord) {
         return cords.contains(cord);
     }
 
+    // Set all the reveal status to true for the original board, showing all the bombs
     public void setAllRevealTrue() {
         numBombSurrounding = numBombSurrounding2;
         for (int i = 0; i < revealStatus.size(); i++) {
@@ -345,6 +359,7 @@ public class BoardLogic {
         }
     }
 
+    // Checks the surrounding of a specific cord j is a value from a for loops for the numbers 0-8 inclusive, that an occurs outside the method
     private String getAdd(int firstIdx, int secondChar, int j) {
         String add = "";
         if (firstIdx >= 0 && secondChar + j > 0 && secondChar + j < grid + 1 && j < 3) {
