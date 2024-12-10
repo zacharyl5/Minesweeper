@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class MinesweeperSequence {
+public class MinesweeperRunner {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         Gameplay game = new Gameplay(scan);
